@@ -20,12 +20,13 @@ class Table extends Component {
             serverSide: false,
             print: false,
             fixedHeader: false,
-            rowsPerPage: 10,
-            rowsPerPageOptions: [5, 10, 100],
-            sort: false,
             pagination: false,
             selectableRows: 'none',
             selectToolbarPlacement: 'none',
+            sortOrder: {
+                name: 'validator',
+                direction: 'asc',
+            },
             textLabels: {
                 body: {
                     noMatch: this.props.inProgress
@@ -47,8 +48,8 @@ class Table extends Component {
             label: 'Validator',
             options: {
                 sort: true,
-                customBodyRender: (value) => (
-                    <ValidatorName value={value}/>
+                customBodyRender: (value, index) => (
+                    <ValidatorName name={value} value={index.rowData && index.rowData.length && index.rowData[1]}/>
                 ),
             },
         }, {
@@ -85,12 +86,15 @@ class Table extends Component {
             label: 'Commission',
             options: {
                 sort: true,
+                customBodyRender: (value) => (
+                    value ? value + '%' : '0%'
+                ),
             },
         }, {
             name: 'tokens_staked',
             label: 'Tokens Staked',
             options: {
-                sort: true,
+                sort: false,
                 customBodyRender: (item) => {
                     let value = this.props.delegations.find((val) =>
                         (val.delegation && val.delegation.validator_address) === item.operator_address);
@@ -134,12 +138,12 @@ class Table extends Component {
         const tableData = dataToMap && dataToMap.length
             ? dataToMap.map((item) =>
                 [
+                    item.description && item.description.moniker,
                     item,
-                    item,
-                    (Number(item.tokens) / 1000000).toFixed(1),
+                    parseFloat((Number(item.tokens) / 1000000).toFixed(1)),
                     item.commission && item.commission.commission_rates &&
                     item.commission.commission_rates.rate
-                        ? (Number(item.commission.commission_rates.rate) * 100).toFixed(1) + '%' : '',
+                        ? parseFloat((Number(item.commission.commission_rates.rate) * 100).toFixed(1)) : null,
                     item,
                     item.operator_address,
                 ])
