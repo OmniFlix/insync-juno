@@ -335,6 +335,12 @@
     }
 }
 
+@media (max-width: 958px) {
+    .proposals .proposals_content {
+        margin-top: unset;
+    }
+}
+
 @media (max-width: 769px) {
     .proposals .card {
         width: 100%;
@@ -356,5 +362,9 @@
 @media (max-width: 426px) {
     .proposals .heading {
         overflow: auto;
+    }
+
+    .proposals .card .icon_info {
+        flex-wrap: wrap;
     }
 }
