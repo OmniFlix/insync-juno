@@ -21,27 +21,27 @@ Currently, the aim of inSync is to be the default/defacto interface when bootstr
 
  2. update chain config
   
-  `NOTE:` below is the chain config for omniflix testnet
+  `NOTE:` below is the chain config for juno mainnet
  
  `src/config.js`
  ```js
- export const config = {
-    RPC_URL: 'https://rpc.testnet.omniflix.network',
-    REST_URL: 'https://api.testnet.omniflix.network',
-    EXPLORER_URL: 'http://45.72.100.112:3000',
-    NETWORK_NAME: 'OmniFlix',
-    NETWORK_TYPE: 'testnet',
-    CHAIN_ID: 'flixnet-2',
-    CHAIN_NAME: 'OmniFlix Hub Testnet',
-    COIN_DENOM: 'FLIX',
-    COIN_MINIMAL_DENOM: 'uflix',
+export const config = {
+    RPC_URL: 'https://rpc.juno.omniflix.co',
+    REST_URL: 'https://api.juno.omniflix.co',
+    EXPLORER_URL: 'https://www.mintscan.io/juno',
+    NETWORK_NAME: 'Juno',
+    NETWORK_TYPE: 'mainnet',
+    CHAIN_ID: 'juno-1',
+    CHAIN_NAME: 'Juno Mainnet',
+    COIN_DENOM: 'JUNO',
+    COIN_MINIMAL_DENOM: 'ujuno',
     COIN_DECIMALS: 6,
-    PREFIX: 'omniflix',
+    PREFIX: 'juno',
     COIN_TYPE: 118,
-    GAS_PRICE_STEP_LOW: 0.01,
+    GAS_PRICE_STEP_LOW: 0.005,
     GAS_PRICE_STEP_AVERAGE: 0.025,
     GAS_PRICE_STEP_HIGH: 0.04,
- };
+};
  ```
 
  3. start app
