@@ -22,7 +22,7 @@ const ClaimDialog = (props) => {
     const handleClaimAll = () => {
         setInProgress(true);
         const count = props.rewards && props.rewards.rewards &&
-            props.rewards.rewards.length * 200000;
+            props.rewards.rewards.length * 100000 + 200000;
 
         const updatedTx = {
             msgs: [],
