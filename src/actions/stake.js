@@ -26,6 +26,7 @@ import {
     VALIDATORS_FETCH_SUCCESS,
 } from '../constants/stake';
 import Axios from 'axios';
+import * as rax from 'retry-axios';
 import { getDelegatedValidatorsURL, getValidatorURL, validatorImageURL, VALIDATORS_LIST_URL } from '../constants/url';
 
 const fetchValidatorsInProgress = () => {
@@ -269,6 +270,10 @@ const fetchValidatorImageError = (message) => {
 export const fetchValidatorImage = (id) => (dispatch) => {
     dispatch(fetchValidatorImageInProgress());
     const URL = validatorImageURL(id);
+
+	// setup axios-retry
+	rax.attach();
+
     Axios.get(URL, {
         headers: {
             Accept: 'application/json, text/plain, */*',
