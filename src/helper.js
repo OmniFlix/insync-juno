@@ -20,6 +20,7 @@ const chainConfig = {
         coinDenom,
         coinMinimalDenom,
         coinDecimals,
+        coinGeckoId: config.COINGECKO_ID,
     },
     bip44: {
         coinType: 118,
@@ -37,6 +38,7 @@ const chainConfig = {
             coinDenom,
             coinMinimalDenom,
             coinDecimals,
+            coinGeckoId: config.COINGECKO_ID,
         },
     ],
     feeCurrencies: [
@@ -44,6 +46,7 @@ const chainConfig = {
             coinDenom,
             coinMinimalDenom,
             coinDecimals,
+            coinGeckoId: config.COINGECKO_ID,
         },
     ],
     coinType: config.COIN_TYPE,
@@ -52,6 +55,7 @@ const chainConfig = {
         average: config.GAS_PRICE_STEP_AVERAGE,
         high: config.GAS_PRICE_STEP_HIGH,
     },
+    features: config.FEATURES,
 };
 
 export const initializeChain = (cb) => {
