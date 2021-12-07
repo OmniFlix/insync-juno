@@ -22,13 +22,13 @@ const ClaimDialog = (props) => {
     const handleClaimAll = () => {
         setInProgress(true);
         const count = props.rewards && props.rewards.rewards &&
-            props.rewards.rewards.length * 100000 + 200000;
+            props.rewards.rewards.length * 50000 + config.DEFAULT_GAS;
 
         const updatedTx = {
             msgs: [],
             fee: {
                 amount: [{
-                    amount: String(5000),
+                    amount: String(config.DEFAULT_GAS * config.GAS_PRICE_STEP_AVERAGE),
                     denom: config.COIN_MINIMAL_DENOM,
                 }],
                 gas: String(count),
@@ -81,10 +81,10 @@ const ClaimDialog = (props) => {
             },
             fee: {
                 amount: [{
-                    amount: String(5000),
+                    amount: String(config.DEFAULT_GAS * config.GAS_PRICE_STEP_AVERAGE),
                     denom: config.COIN_MINIMAL_DENOM,
                 }],
-                gas: String(200000),
+                gas: String(config.DEFAULT_GAS),
             },
             memo: '',
         };
