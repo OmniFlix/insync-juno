@@ -19,6 +19,7 @@ const UnSuccessDialog = (props) => {
                 <div className="heading">
                     <img alt="failed" src={failed}/>
                     {<h1>{variables[props.lang]['transaction_failed']}</h1>}
+                    <p>{props.message}</p>
                 </div>
             </DialogContent>
         </Dialog>
@@ -28,6 +29,7 @@ const UnSuccessDialog = (props) => {
 UnSuccessDialog.propTypes = {
     handleClose: PropTypes.func.isRequired,
     lang: PropTypes.string.isRequired,
+    message: PropTypes.string.isRequired,
     open: PropTypes.bool.isRequired,
 };
 
@@ -35,6 +37,7 @@ const stateToProps = (state) => {
     return {
         lang: state.language,
         open: state.stake.failedDialog,
+        message: state.snackbar.message,
     };
 };
 
