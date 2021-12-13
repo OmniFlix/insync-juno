@@ -36,8 +36,8 @@ UnSuccessDialog.propTypes = {
 const stateToProps = (state) => {
     return {
         lang: state.language,
-        open: state.stake.failedDialog,
-        message: state.snackbar.message,
+        open: state.stake.failedDialog.open,
+        message: state.stake.failedDialog.message,
     };
 };
 

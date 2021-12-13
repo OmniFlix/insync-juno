@@ -24,7 +24,14 @@ import {
     VALIDATORS_FETCH_IN_PROGRESS,
     VALIDATORS_FETCH_SUCCESS,
 } from '../constants/stake';
-import { DISCONNECT_SET } from '../constants/accounts';
+import {
+    BALANCE_FETCH_ERROR,
+    DELEGATIONS_FETCH_ERROR,
+    DISCONNECT_SET,
+    REWARDS_FETCH_ERROR,
+    UN_BONDING_DELEGATIONS_FETCH_ERROR,
+} from '../constants/accounts';
+import { MESSAGE_SHOW } from '../constants/snackbar';
 
 const search = (state = '', action) => {
     if (action.type === SEARCH_LIST_SET) {
@@ -116,12 +123,30 @@ const successDialog = (state = {
     }
 };
 
-const failedDialog = (state = false, action) => {
+const failedDialog = (state = {
+    open: false,
+    message: '',
+}, action) => {
     switch (action.type) {
     case DELEGATE_FAILED_DIALOG_SHOW:
-        return true;
+        return {
+            ...state,
+            open: true,
+        };
     case DELEGATE_FAILED_DIALOG_HIDE:
-        return false;
+        return {
+            open: false,
+            message: '',
+        };
+    case MESSAGE_SHOW:
+    case DELEGATIONS_FETCH_ERROR:
+    case BALANCE_FETCH_ERROR:
+    case UN_BONDING_DELEGATIONS_FETCH_ERROR:
+    case REWARDS_FETCH_ERROR:
+        return {
+            ...state,
+            message: action.message,
+        };
     default:
         return state;
     }
