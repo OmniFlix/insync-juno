@@ -45,10 +45,8 @@ const TextField = (props) => {
         // manually handle numeric input.
         if (props.type === 'number') {
             const parsedNumber = +(e.target.value);
-            if (Number.isNaN(parsedNumber)) {
-                e.target.value = +props.value ? props.value : '0';
-            }
-            props.onChange(e.target.value);
+            const nextVal = Number.isNaN(parsedNumber) ? (+props.value ? props.value : '0') : e.target.value;
+            props.onChange(nextVal);
         } else {
             props.onChange(e.target.value);
         }
