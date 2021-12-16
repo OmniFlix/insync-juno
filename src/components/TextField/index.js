@@ -30,7 +30,28 @@ const useStyles = makeStyles(() => ({
 
 const TextField = (props) => {
     const onChange = (e) => {
-        props.onChange(e.target.value);
+        // Prevents cursor from jumping to the end of the input (see https://stackoverflow.com/a/62433499)
+        // input.type of 'text' for numeric inputs is required in order to enable setting of selectionStart and selectionEnd
+        const caret = e.currentTarget.selectionStart;
+        const element = e.target;
+        window.requestAnimationFrame(() => {
+            try {
+                element.selectionStart = caret;
+                element.selectionEnd = caret;
+            } catch (err) {
+                console.error(err);
+            }
+        });
+        // manually handle numeric input.
+        if (props.type === 'number') {
+            const parsedNumber = +(e.target.value);
+            if (Number.isNaN(parsedNumber)) {
+                e.target.value = +props.value ? props.value : '0';
+            }
+            props.onChange(e.target.value);
+        } else {
+            props.onChange(e.target.value);
+        }
     };
 
     return (
@@ -45,11 +66,13 @@ const TextField = (props) => {
                 </span>
                 : ''}
             id={props.id}
+            // ensures that manually parsed numeric inputs are displayed as numbers
+            inputMode={props.type === 'number' ? 'numeric' : 'text'}
             margin="normal"
             multiline={props.multiline ? props.multiline : false}
             name={props.name}
             placeholder={props.placeholder}
-            type={props.type ? props.type : 'text'}
+            type={props.type && props.type !== 'number' ? props.type : 'text'}
             value={props.value}
             variant="outlined"
             onChange={onChange}/>
