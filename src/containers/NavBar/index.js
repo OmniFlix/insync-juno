@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import logo from '../../assets/OmniFlix.svg';
+import logo from '../../assets/sg-text-logo.png';
 import './index.css';
 import DisconnectButton from './DisconnectButton';
 import Tabs from './Tabs';
@@ -22,15 +22,24 @@ import {
     setAccountAddress,
     showSelectAccountDialog,
 } from '../../actions/accounts';
-import { fetchValidatorImage, getDelegatedValidatorsDetails, getValidators } from '../../actions/stake';
+import {
+    fetchValidatorImage,
+    getDelegatedValidatorsDetails,
+    getValidators,
+} from '../../actions/stake';
 import { withRouter } from 'react-router-dom';
 import ConnectButton from './ConnectButton';
 import CopyButton from '../../components/CopyButton/TextButton';
 import variables from '../../utils/variables';
-import { fetchProposalDetails, fetchProposalTally, fetchVoteDetails, getProposals } from '../../actions/proposals';
+import {
+    fetchProposalDetails,
+    fetchProposalTally,
+    fetchVoteDetails,
+    getProposals,
+} from '../../actions/proposals';
 
 class NavBar extends Component {
-    constructor (props) {
+    constructor(props) {
         super(props);
 
         this.initKeplr = this.initKeplr.bind(this);
@@ -39,7 +48,7 @@ class NavBar extends Component {
         this.getValidatorImage = this.getValidatorImage.bind(this);
     }
 
-    componentDidMount () {
+    componentDidMount() {
         if (localStorage.getItem('of_co_address')) {
             this.initKeplr();
         }
@@ -47,8 +56,12 @@ class NavBar extends Component {
             this.props.getProposals((result) => {
                 if (result && result.length) {
                     result.map((val) => {
-                        const filter = this.props.proposalDetails && Object.keys(this.props.proposalDetails).length &&
-                            Object.keys(this.props.proposalDetails).find((key) => key === val.id);
+                        const filter =
+                            this.props.proposalDetails &&
+                            Object.keys(this.props.proposalDetails).length &&
+                            Object.keys(this.props.proposalDetails).find(
+                                (key) => key === val.id
+                            );
                         if (!filter) {
                             this.props.fetchProposalDetails(val.id);
                         }
@@ -65,27 +78,60 @@ class NavBar extends Component {
             this.handleFetch(this.props.address);
         }
 
-        if (!this.props.validatorList.length && !this.props.validatorListInProgress) {
+        if (
+            !this.props.validatorList.length &&
+            !this.props.validatorListInProgress
+        ) {
             this.props.getValidators((data) => {
-                if (data && data.length && this.props.validatorImages && this.props.validatorImages.length === 0) {
-                    this.getValidatorImage(0, data);
+                if (
+                    data &&
+                    data.length &&
+                    this.props.validatorImages &&
+                    this.props.validatorImages.length === 0
+                ) {
+                    data.map((value) => {
+                        if (
+                            value &&
+                            value.description &&
+                            value.description.identity
+                        ) {
+                            this.props.fetchValidatorImage(
+                                value.description.identity
+                            );
+                        }
+
+                        return null;
+                    });
                 }
             });
         }
         window.addEventListener('keplr_keystorechange', () => {
-            if (localStorage.getItem('of_co_address') || this.props.address !== '') {
+            if (
+                localStorage.getItem('of_co_address') ||
+                this.props.address !== ''
+            ) {
                 this.handleChain();
             }
         });
     }
 
-    componentDidUpdate (pp, ps, ss) {
-        if ((!pp.proposals.length && (pp.proposals !== this.props.proposals) &&
-            this.props.proposals && this.props.proposals.length) ||
-            ((pp.address !== this.props.address) && (pp.address === ''))) {
+    componentDidUpdate(pp, ps, ss) {
+        if (
+            (!pp.proposals.length &&
+                pp.proposals !== this.props.proposals &&
+                this.props.proposals &&
+                this.props.proposals.length) ||
+            (pp.address !== this.props.address && pp.address === '')
+        ) {
             this.props.proposals.map((val) => {
-                const votedOption = this.props.voteDetails && this.props.voteDetails.length && val && val.id &&
-                    this.props.voteDetails.filter((vote) => vote.proposal_id === val.id)[0];
+                const votedOption =
+                    this.props.voteDetails &&
+                    this.props.voteDetails.length &&
+                    val &&
+                    val.id &&
+                    this.props.voteDetails.filter(
+                        (vote) => vote.proposal_id === val.id
+                    )[0];
 
                 if (val.status === 2 && !votedOption && this.props.address) {
                     this.props.fetchVoteDetails(val.id, this.props.address);
@@ -95,18 +141,29 @@ class NavBar extends Component {
             });
         }
 
-        if ((pp.address !== this.props.address) && pp.address !== '' && !this.props.stake) {
+        if (
+            pp.address !== this.props.address &&
+            pp.address !== '' &&
+            !this.props.stake
+        ) {
             this.props.getProposals((result) => {
                 if (result && result.length) {
                     result.map((val) => {
-                        const filter = this.props.proposalDetails && Object.keys(this.props.proposalDetails).length &&
-                            Object.keys(this.props.proposalDetails).find((key) => key === val.id);
+                        const filter =
+                            this.props.proposalDetails &&
+                            Object.keys(this.props.proposalDetails).length &&
+                            Object.keys(this.props.proposalDetails).find(
+                                (key) => key === val.id
+                            );
                         if (!filter) {
                             this.props.fetchProposalDetails(val.id);
                         }
                         if (val.status === 2) {
                             this.props.fetchProposalTally(val.id);
-                            this.props.fetchVoteDetails(val.id, this.props.address);
+                            this.props.fetchVoteDetails(
+                                val.id,
+                                this.props.address
+                            );
                         }
 
                         return null;
@@ -116,17 +173,21 @@ class NavBar extends Component {
         }
     }
 
-    componentWillUnmount () {
+    componentWillUnmount() {
         window.removeEventListener('keplr_keystorechange', this.handleChain);
     }
 
-    getValidatorImage (index, data) {
+    getValidatorImage(index, data) {
         const array = [];
         for (let i = 0; i < 3; i++) {
             if (data[index + i]) {
                 const value = data[index + i];
                 if (value && value.description && value.description.identity) {
-                    array.push(this.props.fetchValidatorImage(value.description.identity));
+                    array.push(
+                        this.props.fetchValidatorImage(
+                            value.description.identity
+                        )
+                    );
                 }
             } else {
                 break;
@@ -140,7 +201,7 @@ class NavBar extends Component {
         });
     }
 
-    handleFetch (address) {
+    handleFetch(address) {
         if (!this.props.proposalTab) {
             this.props.getDelegations(address);
             this.props.getDelegatedValidatorsDetails(address);
@@ -151,11 +212,11 @@ class NavBar extends Component {
         this.props.fetchRewards(address);
     }
 
-    initKeplr () {
+    initKeplr() {
         window.onload = () => this.handleChain();
     }
 
-    handleChain () {
+    handleChain() {
         initializeChain((error, addressList) => {
             if (error) {
                 this.props.showMessage(error);
@@ -164,43 +225,74 @@ class NavBar extends Component {
                 return;
             }
 
-            const previousAddress = localStorage.getItem('of_co_address') &&
+            const previousAddress =
+                localStorage.getItem('of_co_address') &&
                 decode(localStorage.getItem('of_co_address'));
-            this.props.setAccountAddress(addressList[0] && addressList[0].address);
+            this.props.setAccountAddress(
+                addressList[0] && addressList[0].address
+            );
             this.handleFetch(addressList[0] && addressList[0].address);
             if (addressList[0] && previousAddress !== addressList[0].address) {
-                localStorage.setItem('of_co_address', encode(addressList[0] && addressList[0].address));
+                localStorage.setItem(
+                    'of_co_address',
+                    encode(addressList[0] && addressList[0].address)
+                );
             }
         });
     }
 
-    render () {
+    render() {
         return (
-            <div className={ClassNames('nav_bar padding', localStorage.getItem('of_co_address') || this.props.address
-                ? '' : 'disconnected_nav')}>
-                <img alt="OmniFlix" src={logo}/>
-                <ExpansionButton/>
-                <div className={ClassNames('right_content', this.props.show ? 'show' : '')}>
-                    <div className="back_button" onClick={this.props.handleClose}>
-                        <Icon className="cross" icon="cross"/>
+            <div
+                className={ClassNames(
+                    'nav_bar padding',
+                    localStorage.getItem('of_co_address') || this.props.address
+                        ? ''
+                        : 'disconnected_nav'
+                )}
+            >
+                <img alt="Stargaze" src={logo} />
+                <ExpansionButton />
+                <div
+                    className={ClassNames(
+                        'right_content',
+                        this.props.show ? 'show' : ''
+                    )}
+                >
+                    <div
+                        className="back_button"
+                        onClick={this.props.handleClose}
+                    >
+                        <Icon className="cross" icon="cross" />
                     </div>
-                    <Tabs/>
-                    {(localStorage.getItem('of_co_address') || this.props.address) &&
-                    <div className="select_fields">
-                        <p className="token_name">{config.NETWORK_NAME}</p>
-                        <span className="divider"/>
-                        <div className="hash_text" title={this.props.address}>
-                            <p className="name">{this.props.address}</p>
-                            {this.props.address &&
-                            this.props.address.slice(this.props.address.length - 6, this.props.address.length)}
+                    <Tabs />
+                    {(localStorage.getItem('of_co_address') ||
+                        this.props.address) && (
+                        <div className="select_fields">
+                            <p className="token_name">{config.NETWORK_NAME}</p>
+                            <span className="divider" />
+                            <div
+                                className="hash_text"
+                                title={this.props.address}
+                            >
+                                <p className="name">{this.props.address}</p>
+                                {this.props.address &&
+                                    this.props.address.slice(
+                                        this.props.address.length - 6,
+                                        this.props.address.length
+                                    )}
+                            </div>
+                            <CopyButton data={this.props.address}>
+                                {variables[this.props.lang].copy}
+                            </CopyButton>
                         </div>
-                        <CopyButton data={this.props.address}>
-                            {variables[this.props.lang].copy}
-                        </CopyButton>
-                    </div>}
-                    {localStorage.getItem('of_co_address') || this.props.address
-                        ? <DisconnectButton/>
-                        : <ConnectButton proposalTab={this.props.proposalTab}/>}
+                    )}
+                    {localStorage.getItem('of_co_address') ||
+                    this.props.address ? (
+                        <DisconnectButton />
+                    ) : (
+                        <ConnectButton proposalTab={this.props.proposalTab} />
+                    )}
                 </div>
             </div>
         );

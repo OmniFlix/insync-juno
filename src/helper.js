@@ -73,7 +73,8 @@ export const initializeChain = (cb) => {
                     cb(chainError);
                 }
             } else {
-                const versionError = 'Please use the recent version of keplr extension';
+                const versionError =
+                    'Please use the recent version of keplr extension';
                 cb(versionError);
             }
         }
@@ -92,72 +93,83 @@ export const initializeChain = (cb) => {
 
 export const signTxAndBroadcast = (tx, address, cb) => {
     (async () => {
-        await window.keplr && window.keplr.enable(chainId);
-        const offlineSigner = window.getOfflineSignerOnlyAmino && window.getOfflineSignerOnlyAmino(chainId);
+        (await window.keplr) && window.keplr.enable(chainId);
+        const offlineSigner =
+            window.getOfflineSignerOnlyAmino &&
+            window.getOfflineSignerOnlyAmino(chainId);
         const client = await SigningStargateClient.connectWithSigner(
             RPC_URL,
-            offlineSigner,
+            offlineSigner
         );
-        client.signAndBroadcast(
-            address,
-            tx.msgs ? tx.msgs : [tx.msg],
-            tx.fee,
-            tx.memo,
-        ).then((result) => {
-            if (result && result.code !== undefined && result.code !== 0) {
-                cb(result.log || result.rawLog);
-            } else {
-                cb(null, result);
-            }
-        }).catch((error) => {
-            cb(error && error.message);
-        });
+        client
+            .signAndBroadcast(
+                address,
+                tx.msgs ? tx.msgs : [tx.msg],
+                tx.fee,
+                tx.memo
+            )
+            .then((result) => {
+                if (result && result.code !== undefined && result.code !== 0) {
+                    cb(result.log || result.rawLog);
+                } else {
+                    cb(null, result);
+                }
+            })
+            .catch((error) => {
+                cb(error && error.message);
+            });
     })();
 };
 
 export const cosmosSignTxAndBroadcast = (tx, address, cb) => {
     (async () => {
-        await window.keplr && window.keplr.enable(chainId);
-        const offlineSigner = window.getOfflineSignerOnlyAmino && window.getOfflineSignerOnlyAmino(chainId);
+        (await window.keplr) && window.keplr.enable(chainId);
+        const offlineSigner =
+            window.getOfflineSignerOnlyAmino &&
+            window.getOfflineSignerOnlyAmino(chainId);
         const cosmJS = new SigningCosmosClient(
             REST_URL,
             address,
-            offlineSigner,
+            offlineSigner
         );
 
-        cosmJS.signAndBroadcast(tx.msg, tx.fee, tx.memo).then((result) => {
-            if (result && result.code !== undefined && result.code !== 0) {
-                cb(result.log || result.rawLog);
-            } else {
-                cb(null, result);
-            }
-        }).catch((error) => {
-            cb(error && error.message);
-        });
+        cosmJS
+            .signAndBroadcast(tx.msg, tx.fee, tx.memo)
+            .then((result) => {
+                if (result && result.code !== undefined && result.code !== 0) {
+                    cb(result.log || result.rawLog);
+                } else {
+                    cb(null, result);
+                }
+            })
+            .catch((error) => {
+                cb(error && error.message);
+            });
     })();
 };
 
 export const aminoSignTxAndBroadcast = (tx, address, cb) => {
     (async () => {
-        await window.keplr && window.keplr.enable(chainId);
-        const offlineSigner = window.getOfflineSignerOnlyAmino && window.getOfflineSignerOnlyAmino(chainId);
+        (await window.keplr) && window.keplr.enable(chainId);
+        const offlineSigner =
+            window.getOfflineSignerOnlyAmino &&
+            window.getOfflineSignerOnlyAmino(chainId);
 
         const client = new SigningCosmosClient(
             REST_URL,
             address,
-            offlineSigner,
+            offlineSigner
         );
 
         const client2 = await SigningStargateClient.connectWithSigner(
             RPC_URL,
-            offlineSigner,
+            offlineSigner
         );
         const account = {};
         try {
-            const {
-                accountNumber,
-                sequence,
-            } = await client2.getSequence(address);
+            const { accountNumber, sequence } = await client2.getSequence(
+                address
+            );
             account.accountNumber = accountNumber;
             account.sequence = sequence;
         } catch (e) {
@@ -170,13 +182,13 @@ export const aminoSignTxAndBroadcast = (tx, address, cb) => {
             chainId,
             tx.memo,
             account.accountNumber,
-            account.sequence,
+            account.sequence
         );
 
-        const {
-            signed,
-            signature,
-        } = await offlineSigner.signAmino(address, signDoc);
+        const { signed, signature } = await offlineSigner.signAmino(
+            address,
+            signDoc
+        );
 
         const msg = signed.msgs ? signed.msgs : [signed.msg];
         const fee = signed.fee;
@@ -189,34 +201,38 @@ export const aminoSignTxAndBroadcast = (tx, address, cb) => {
             signatures: [signature],
         };
 
-        client.broadcastTx(voteTx).then((result) => {
-            if (result && result.code !== undefined && result.code !== 0) {
-                cb(result.log || result.rawLog);
-            } else {
-                cb(null, result);
-            }
-        }).catch((error) => {
-            cb(error && error.message);
-        });
+        client
+            .broadcastTx(voteTx)
+            .then((result) => {
+                if (result && result.code !== undefined && result.code !== 0) {
+                    cb(result.log || result.rawLog);
+                } else {
+                    cb(null, result);
+                }
+            })
+            .catch((error) => {
+                cb(error && error.message);
+            });
     })();
 };
 
 export const aminoSignTx = (tx, address, cb) => {
     (async () => {
-        await window.keplr && window.keplr.enable(chainId);
-        const offlineSigner = window.getOfflineSignerOnlyAmino && window.getOfflineSignerOnlyAmino(chainId);
+        (await window.keplr) && window.keplr.enable(chainId);
+        const offlineSigner =
+            window.getOfflineSignerOnlyAmino &&
+            window.getOfflineSignerOnlyAmino(chainId);
 
         const client = await SigningStargateClient.connectWithSigner(
             RPC_URL,
-            offlineSigner,
+            offlineSigner
         );
 
         const account = {};
         try {
-            const {
-                accountNumber,
-                sequence,
-            } = await client.getSequence(address);
+            const { accountNumber, sequence } = await client.getSequence(
+                address
+            );
             account.accountNumber = accountNumber;
             account.sequence = sequence;
         } catch (e) {
@@ -229,17 +245,20 @@ export const aminoSignTx = (tx, address, cb) => {
             chainId,
             tx.memo,
             account.accountNumber,
-            account.sequence,
+            account.sequence
         );
 
-        offlineSigner.signAmino(address, signDoc).then((result) => {
-            if (result && result.code !== undefined && result.code !== 0) {
-                cb(result.log || result.rawLog);
-            } else {
-                cb(null, result);
-            }
-        }).catch((error) => {
-            cb(error && error.message);
-        });
+        offlineSigner
+            .signAmino(address, signDoc)
+            .then((result) => {
+                if (result && result.code !== undefined && result.code !== 0) {
+                    cb(result.log || result.rawLog);
+                } else {
+                    cb(null, result);
+                }
+            })
+            .catch((error) => {
+                cb(error && error.message);
+            });
     })();
 };
