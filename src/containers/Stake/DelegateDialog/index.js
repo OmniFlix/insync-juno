@@ -15,7 +15,7 @@ import ValidatorSelectField from './ValidatorSelectField';
 import TokensTextField from './TokensTextField';
 import ToValidatorSelectField from './ToValidatorSelectField';
 import { signTxAndBroadcast } from '../../../helper';
-import { fetchVestingBalance, getBalance, getDelegations, getUnBondingDelegations } from '../../../actions/accounts';
+import { fetchRewards, fetchVestingBalance, getBalance, getDelegations, getUnBondingDelegations } from '../../../actions/accounts';
 import { showMessage } from '../../../actions/snackbar';
 import { config } from '../../../config';
 import CircularProgress from '../../../components/CircularProgress';
@@ -70,6 +70,7 @@ const DelegateDialog = (props) => {
         props.getDelegations(props.address);
         props.getUnBondingDelegations(props.address);
         props.getDelegatedValidatorsDetails(props.address);
+        props.fetchRewards(props.address);
     };
 
     const getValueObject = (type) => {
@@ -175,6 +176,7 @@ const DelegateDialog = (props) => {
 
 DelegateDialog.propTypes = {
     failedDialog: PropTypes.func.isRequired,
+    fetchRewards: PropTypes.func.isRequired,
     fetchVestingBalance: PropTypes.func.isRequired,
     getBalance: PropTypes.func.isRequired,
     getDelegatedValidatorsDetails: PropTypes.func.isRequired,
@@ -230,6 +232,7 @@ const actionToProps = {
     failedDialog: showDelegateFailedDialog,
     pendingDialog: showDelegateProcessingDialog,
     fetchVestingBalance,
+    fetchRewards,
     getBalance,
     getDelegations,
     getDelegatedValidatorsDetails,
