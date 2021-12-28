@@ -16,5 +16,5 @@ export const config = {
     GAS_PRICE_STEP_LOW: 0.005,
     GAS_PRICE_STEP_AVERAGE: 0.025,
     GAS_PRICE_STEP_HIGH: 0.08,
-    FEATURES: ['stargate', 'ibc-transfer'],
+    FEATURES: ['stargate', 'ibc-transfer', 'cosmwasm', 'no-legacy-stdTx', 'ibc-go'],
 };
