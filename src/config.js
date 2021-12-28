@@ -12,9 +12,9 @@ export const config = {
     PREFIX: 'juno',
     COIN_TYPE: 118,
     COINGECKO_ID: 'juno-network',
-    DEFAULT_GAS: 250000,
-    GAS_PRICE_STEP_LOW: 0.005,
+    DEFAULT_GAS: 200000,
+    GAS_PRICE_STEP_LOW: 0.01,
     GAS_PRICE_STEP_AVERAGE: 0.025,
-    GAS_PRICE_STEP_HIGH: 0.08,
+    GAS_PRICE_STEP_HIGH: 0.04,
     FEATURES: ['stargate', 'ibc-transfer', 'cosmwasm', 'no-legacy-stdTx', 'ibc-go'],
 };
