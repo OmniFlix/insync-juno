@@ -7,6 +7,8 @@ import {
     DELEGATE_DIALOG_SHOW,
     DELEGATE_FAILED_DIALOG_HIDE,
     DELEGATE_FAILED_DIALOG_SHOW,
+    DELEGATE_PROCESSING_DIALOG_HIDE,
+    DELEGATE_PROCESSING_DIALOG_SHOW,
     DELEGATE_SUCCESS_DIALOG_HIDE,
     DELEGATE_SUCCESS_DIALOG_SHOW,
     DELEGATED_VALIDATORS_FETCH_ERROR,
@@ -92,6 +94,7 @@ const delegateDialog = (state = {
     case DELEGATE_DIALOG_HIDE:
     case DELEGATE_SUCCESS_DIALOG_HIDE:
     case DELEGATE_FAILED_DIALOG_HIDE:
+    case DELEGATE_PROCESSING_DIALOG_HIDE:
         return {
             ...state,
             open: false,
@@ -118,6 +121,17 @@ const successDialog = (state = {
             open: false,
             hash: '',
         };
+    default:
+        return state;
+    }
+};
+
+const processingDialog = (state = false, action) => {
+    switch (action.type) {
+    case DELEGATE_PROCESSING_DIALOG_SHOW:
+        return true;
+    case DELEGATE_PROCESSING_DIALOG_HIDE:
+        return false;
     default:
         return state;
     }
@@ -308,6 +322,7 @@ export default combineReducers({
     search,
     delegateDialog,
     successDialog,
+    processingDialog,
     failedDialog,
     validator,
     toValidator,
