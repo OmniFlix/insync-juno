@@ -31,9 +31,11 @@ const SuccessDialog = (props) => {
                     <img alt="success" src={success}/>
                     {props.name
                         ? <h1>{props.name + 'd Successfully'}</h1>
-                        : props.claimValidator
+                        : props.claimValidator && props.claimValidator !== 'none'
                             ? <h1>{variables[props.lang].claimed_success}</h1>
-                            : <h1>{variables[props.lang].success}</h1>}
+                            : props.proposalOpen
+                                ? <h1>{variables[props.lang].vote_success}</h1>
+                                : <h1>{variables[props.lang].success}</h1>}
                 </div>
                 {!props.name
                     ? props.claimValidator && props.claimValidator !== 'none'
@@ -140,6 +142,7 @@ SuccessDialog.propTypes = {
     lang: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     open: PropTypes.bool.isRequired,
+    proposalOpen: PropTypes.bool.isRequired,
     toValidator: PropTypes.string.isRequired,
     validator: PropTypes.string.isRequired,
     address: PropTypes.string,
@@ -167,6 +170,7 @@ const stateToProps = (state) => {
         toValidator: state.stake.toValidator.value,
         validatorList: state.stake.validators.list,
         claimValidator: state.stake.claimDialog.validator,
+        proposalOpen: state.proposals.dialog.open,
     };
 };
 
