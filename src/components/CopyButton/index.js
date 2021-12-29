@@ -12,7 +12,9 @@ const CopyButton = (props) => {
     };
 
     const handleCopy = (e) => {
-        navigator && navigator.clipboard && navigator.clipboard.writeText(props.data);
+        navigator &&
+            navigator.clipboard &&
+            navigator.clipboard.writeText(props.data);
 
         e.stopPropagation();
         setOpen(true);
@@ -20,15 +22,13 @@ const CopyButton = (props) => {
     };
 
     return (
-        <Tooltip
-            arrow
-            open={open}
-            title="Copied!">
+        <Tooltip arrow open={open} title="Copied!">
             <IconButton
-                className="copy_button"
+                className="bg-white text-black py-1.5 px-4 rounded-full ml-2 font-bold text-xs hover:bg-slate-200 transition duration-75"
                 variant="contained"
-                onClick={handleCopy}>
-                <img alt="copy" src={copy}/>
+                onClick={handleCopy}
+            >
+                <img alt="copy" src={copy} />
             </IconButton>
         </Tooltip>
     );

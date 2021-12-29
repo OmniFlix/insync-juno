@@ -51,9 +51,9 @@
 }
 
 .proposals .card {
-    background: #FFFFFF;
+    background: #1c1c1c;
     border-radius: 20px;
-    color: #000000;
+    color: white;
     padding: 18px 28px;
     width: 31%;
     text-align: left;
@@ -69,7 +69,7 @@
 
 .proposals .card .number {
     position: absolute;
-    background: #FFFFFF;
+    background: #2b2b2b;
     box-shadow: 0 4px 4px rgb(0 0 0 / 25%);
     width: 40px;
     height: 40px;
@@ -97,7 +97,7 @@
     font-weight: 600;
     font-size: 28px;
     line-height: 130%;
-    color: #000000;
+    color: white;
     margin: unset;
     white-space: nowrap;
     overflow: hidden;
@@ -149,7 +149,7 @@
     font-weight: 600;
     font-size: 18px;
     line-height: 130%;
-    color: #000000;
+    color: white;
     text-transform: unset;
     padding: 6px 30px;
 }
@@ -231,7 +231,7 @@
     font-weight: 600;
     font-size: 18px;
     line-height: 130%;
-    color: #000000;
+    color: black;
     padding: 8px 20px;
 }
 
@@ -285,7 +285,7 @@
     font-weight: 600;
     font-size: 14px;
     line-height: 130%;
-    color: #000000;
+    color: white;
     display: flex;
 }
 

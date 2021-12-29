@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Button } from '@material-ui/core';
 import * as PropTypes from 'prop-types';
 import variables from '../../utils/variables';
 import { initializeChain } from '../../helper';
@@ -34,24 +33,32 @@ const ConnectButton = (props) => {
             props.setAccountAddress(addressList[0] && addressList[0].address);
             if (!props.proposalTab) {
                 props.getDelegations(addressList[0] && addressList[0].address);
-                props.getDelegatedValidatorsDetails(addressList[0] && addressList[0].address);
+                props.getDelegatedValidatorsDetails(
+                    addressList[0] && addressList[0].address
+                );
             }
-            props.getUnBondingDelegations(addressList[0] && addressList[0].address);
+            props.getUnBondingDelegations(
+                addressList[0] && addressList[0].address
+            );
             props.getBalance(addressList[0] && addressList[0].address);
             props.fetchVestingBalance(addressList[0] && addressList[0].address);
             props.fetchRewards(addressList[0] && addressList[0].address);
-            localStorage.setItem('of_co_address', encode(addressList[0] && addressList[0].address));
+            localStorage.setItem(
+                'of_co_address',
+                encode(addressList[0] && addressList[0].address)
+            );
         });
     };
 
     return (
-        <Button
-            className="disconnect_button"
+        <button
+            className="inline-flex items-center px-6 py-1.5 text-base font-bold text-white rounded-full shadow-sm disabled:opacity-80 hover:opacity-95 bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             disabled={inProgress}
             variant="contained"
-            onClick={initKeplr}>
+            onClick={initKeplr}
+        >
             {inProgress ? 'connecting...' : variables[props.lang].connect}
-        </Button>
+        </button>
     );
 };
 

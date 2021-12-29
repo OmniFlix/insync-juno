@@ -14,7 +14,7 @@ import ConnectButton from '../NavBar/ConnectButton';
 import classNames from 'classnames';
 
 class Table extends Component {
-    randomNoRepeats (array) {
+    randomNoRepeats(array) {
         for (let i = array.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
             [array[i], array[j]] = [array[j], array[i]];
@@ -23,7 +23,7 @@ class Table extends Component {
         return array;
     }
 
-    render () {
+    render() {
         const options = {
             serverSide: false,
             print: false,
@@ -33,11 +33,13 @@ class Table extends Component {
             selectToolbarPlacement: 'none',
             textLabels: {
                 body: {
-                    noMatch: this.props.inProgress
-                        ? <CircularProgress/>
-                        : !this.props.address
-                            ? <ConnectButton/>
-                            : <div className="no_data_table"> No data found </div>,
+                    noMatch: this.props.inProgress ? (
+                        <CircularProgress />
+                    ) : !this.props.address ? (
+                        <ConnectButton />
+                    ) : (
+                        <div className="no_data_table"> No data found </div>
+                    ),
                     toolTip: 'Sort',
                 },
                 viewColumns: {
@@ -47,117 +49,171 @@ class Table extends Component {
             },
         };
 
-        const columns = [{
-            name: 'validator',
-            label: 'Validator',
-            options: {
-                sort: true,
-                customBodyRender: (value, index) => (
-                    <ValidatorName name={value} value={index.rowData && index.rowData.length && index.rowData[1]}/>
-                ),
-            },
-        }, {
-            name: 'status',
-            label: 'Status',
-            options: {
-                sort: false,
-                customBodyRender: (value) => (
-                    <div
-                        className={classNames('status', value.jailed ? 'red_status' : '')}
-                        title={value.status === 1 ? 'unbonding'
-                            : value.status === 2 ? 'unbonded'
-                                : value.status === 3 ? 'active' : ''}>
-                        {value.status === 1 ? 'unbonding'
-                            : value.status === 2 ? 'unbonded'
-                                : value.status === 3 ? 'active' : ''}
-                    </div>
-                ),
-            },
-        }, {
-            name: 'voting_power',
-            label: 'Voting Power',
-            options: {
-                sort: true,
-                customBodyRender: (value) => (
-                    <div className="voting_power">
-                        <p>{commaSeparator(parseFloat(value).toFixed(2))}</p>
-                    </div>
-                ),
-            },
-        },
-        {
-            name: 'commission',
-            label: 'Commission',
-            options: {
-                sort: true,
-                customBodyRender: (value) => (
-                    value ? value + '%' : '0%'
-                ),
-            },
-        }, {
-            name: 'tokens_staked',
-            label: 'Tokens Staked',
-            options: {
-                sort: false,
-                customBodyRender: (item) => {
-                    let value = this.props.delegations.find((val) =>
-                        (val.delegation && val.delegation.validator_address) === item.operator_address);
-                    value = value ? value.balance && value.balance.amount && value.balance.amount / 10 ** config.COIN_DECIMALS : null;
-
-                    return (
-                        <div className={value ? 'tokens' : 'no_tokens'}>
-                            {value || 'no tokens'}
-                        </div>
-                    );
+        const columns = [
+            {
+                name: 'validator',
+                label: 'Validator',
+                options: {
+                    sort: true,
+                    customBodyRender: (value, index) => (
+                        <ValidatorName
+                            name={value}
+                            value={
+                                index.rowData &&
+                                index.rowData.length &&
+                                index.rowData[1]
+                            }
+                        />
+                    ),
                 },
             },
-        }, {
-            name: 'action',
-            label: 'Action',
-            options: {
-                sort: false,
-                customBodyRender: (validatorAddress) => (
-                    this.props.delegations.find((item) =>
-                        (item.delegation && item.delegation.validator_address) === validatorAddress)
-                        ? <div className="actions">
-                            <ReDelegateButton valAddress={validatorAddress}/>
-                            <span/>
-                            <UnDelegateButton valAddress={validatorAddress}/>
-                            <span/>
-                            <DelegateButton valAddress={validatorAddress}/>
+            {
+                name: 'status',
+                label: 'Status',
+                options: {
+                    sort: false,
+                    customBodyRender: (value) => (
+                        <div
+                            className={classNames(
+                                'status',
+                                value.jailed ? 'red_status' : ''
+                            )}
+                            title={
+                                value.status === 1
+                                    ? 'unbonding'
+                                    : value.status === 2
+                                    ? 'unbonded'
+                                    : value.status === 3
+                                    ? 'active'
+                                    : ''
+                            }
+                        >
+                            {value.status === 1
+                                ? 'unbonding'
+                                : value.status === 2
+                                ? 'unbonded'
+                                : value.status === 3
+                                ? 'active'
+                                : ''}
                         </div>
-                        : <div className="actions">
-                            <DelegateButton valAddress={validatorAddress}/>
-                        </div>
-                ),
+                    ),
+                },
             },
-        }]
-        ;
+            {
+                name: 'voting_power',
+                label: 'Voting Power',
+                options: {
+                    sort: true,
+                    customBodyRender: (value) => (
+                        <div className="voting_power">
+                            <p>
+                                {commaSeparator(parseFloat(value).toFixed(2))}
+                            </p>
+                        </div>
+                    ),
+                },
+            },
+            {
+                name: 'commission',
+                label: 'Commission',
+                options: {
+                    sort: true,
+                    customBodyRender: (value) => (value ? value + '%' : '0%'),
+                },
+            },
+            {
+                name: 'tokens_staked',
+                label: 'Tokens Staked',
+                options: {
+                    sort: false,
+                    customBodyRender: (item) => {
+                        let value = this.props.delegations.find(
+                            (val) =>
+                                (val.delegation &&
+                                    val.delegation.validator_address) ===
+                                item.operator_address
+                        );
+                        value = value
+                            ? value.balance &&
+                              value.balance.amount &&
+                              value.balance.amount / 10 ** config.COIN_DECIMALS
+                            : null;
 
-        const dataToMap = this.props.active === 2 ? this.props.delegatedValidatorList
-            : this.randomNoRepeats(this.props.validatorList);
+                        return (
+                            <div className={value ? 'tokens' : 'no_tokens'}>
+                                {value || 'no tokens'}
+                            </div>
+                        );
+                    },
+                },
+            },
+            {
+                name: 'action',
+                label: 'Action',
+                options: {
+                    sort: false,
+                    customBodyRender: (validatorAddress) =>
+                        this.props.delegations.find(
+                            (item) =>
+                                (item.delegation &&
+                                    item.delegation.validator_address) ===
+                                validatorAddress
+                        ) ? (
+                            <div className="actions">
+                                <ReDelegateButton
+                                    valAddress={validatorAddress}
+                                />
+                                <span />
+                                <UnDelegateButton
+                                    valAddress={validatorAddress}
+                                />
+                                <span />
+                                <DelegateButton valAddress={validatorAddress} />
+                            </div>
+                        ) : (
+                            <div className="actions">
+                                <DelegateButton valAddress={validatorAddress} />
+                            </div>
+                        ),
+                },
+            },
+        ];
 
-        const tableData = dataToMap && dataToMap.length
-            ? dataToMap.map((item) =>
-                [
-                    item.description && item.description.moniker,
-                    item,
-                    parseFloat((Number(item.tokens) / 1000000).toFixed(1)),
-                    item.commission && item.commission.commission_rates &&
-                    item.commission.commission_rates.rate
-                        ? parseFloat((Number(item.commission.commission_rates.rate) * 100).toFixed(2)) : null,
-                    item,
-                    item.operator_address,
-                ])
-            : [];
+        const dataToMap =
+            this.props.active === 2
+                ? this.props.delegatedValidatorList
+                : this.randomNoRepeats(this.props.validatorList);
+
+        const tableData =
+            dataToMap && dataToMap.length
+                ? dataToMap.map((item) => [
+                      item.description && item.description.moniker,
+                      item,
+                      parseFloat((Number(item.tokens) / 1000000).toFixed(1)),
+                      item.commission &&
+                      item.commission.commission_rates &&
+                      item.commission.commission_rates.rate
+                          ? parseFloat(
+                                (
+                                    Number(
+                                        item.commission.commission_rates.rate
+                                    ) * 100
+                                ).toFixed(2)
+                            )
+                          : null,
+                      item,
+                      item.operator_address,
+                  ])
+                : [];
 
         return (
-            <div className="table">
+            <div className="table w-full">
                 <DataTable
                     columns={columns}
                     data={tableData}
                     name="stake"
-                    options={options}/>
+                    options={options}
+                />
             </div>
         );
     }
@@ -182,7 +238,7 @@ Table.propTypes = {
             description: PropTypes.shape({
                 moniker: PropTypes.string,
             }),
-        }),
+        })
     ),
     delegations: PropTypes.arrayOf(
         PropTypes.shape({
@@ -191,7 +247,7 @@ Table.propTypes = {
                 amount: PropTypes.any,
                 denom: PropTypes.string,
             }),
-        }),
+        })
     ),
     home: PropTypes.bool,
     validatorList: PropTypes.arrayOf(
@@ -208,7 +264,7 @@ Table.propTypes = {
             description: PropTypes.shape({
                 moniker: PropTypes.string,
             }),
-        }),
+        })
     ),
 };
 

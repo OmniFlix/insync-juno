@@ -17,7 +17,7 @@ import { connect } from 'react-redux';
 import PendingDialog from '../Stake/DelegateDialog/PendingDialog';
 
 class Home extends Component {
-    constructor (props) {
+    constructor(props) {
         super(props);
 
         this.state = {
@@ -28,30 +28,36 @@ class Home extends Component {
         this.handleRedirect = this.handleRedirect.bind(this);
     }
 
-    componentDidMount () {
-        if ((this.props.address !== '') && (this.state.active !== 2)) {
+    componentDidMount() {
+        if (this.props.address !== '' && this.state.active !== 2) {
             this.setState({
                 active: 2,
             });
         }
     }
 
-    componentDidUpdate (pp, ps, ss) {
-        if ((pp.address !== this.props.address) &&
-            (this.props.address !== '') && (this.state.active !== 2)) {
+    componentDidUpdate(pp, ps, ss) {
+        if (
+            pp.address !== this.props.address &&
+            this.props.address !== '' &&
+            this.state.active !== 2
+        ) {
             this.setState({
                 active: 2,
             });
         }
-        if ((pp.address !== this.props.address) &&
-            (this.props.address === '') && (this.state.active !== 1)) {
+        if (
+            pp.address !== this.props.address &&
+            this.props.address === '' &&
+            this.state.active !== 1
+        ) {
             this.setState({
                 active: 1,
             });
         }
     }
 
-    handleChange (value) {
+    handleChange(value) {
         if (this.state.active === value) {
             return;
         }
@@ -61,71 +67,116 @@ class Home extends Component {
         });
     }
 
-    handleRedirect (value) {
+    handleRedirect(value) {
         this.props.history.push(value);
     }
 
-    render () {
+    render() {
         const { active } = this.state;
-        const filteredProposals = this.props.proposals && this.props.proposals.filter((item) => item.status === 2);
+        const filteredProposals =
+            this.props.proposals &&
+            this.props.proposals.filter((item) => item.status === 2);
 
         return (
             <>
-                <NavBar/>
+                <NavBar />
                 <div className="home padding">
-                    <div className="card">
+                    <div className="z-50 shadow-lg card bg-gradient-to-r from-purple-400 via-pink-500 to-red-500">
                         <div className="left_content">
                             <h2>{variables[this.props.lang].welcome}</h2>
-                            <p className="info">{variables[this.props.lang].participate}</p>
+                            <p className="info">
+                                {variables[this.props.lang].participate}
+                            </p>
                         </div>
-                        <TokenDetails lang={this.props.lang}/>
+                        <TokenDetails lang={this.props.lang} />
                     </div>
                 </div>
                 <div className="stake">
                     <div className="stake_content padding">
                         <div className="heading">
                             <div className="tabs">
-                                <p className={active === 2 ? 'active' : ''} onClick={() => this.handleChange(2)}>
-                                    {variables[this.props.lang]['staked_validators']}
+                                <p
+                                    className={active === 2 ? 'active' : ''}
+                                    onClick={() => this.handleChange(2)}
+                                >
+                                    {
+                                        variables[this.props.lang][
+                                            'staked_validators'
+                                        ]
+                                    }
                                 </p>
-                                <span/>
-                                <p className={active === 1 ? 'active' : ''} onClick={() => this.handleChange(1)}>
-                                    {variables[this.props.lang]['all_validators']}
+                                <span />
+                                <p
+                                    className={active === 1 ? 'active' : ''}
+                                    onClick={() => this.handleChange(1)}
+                                >
+                                    {
+                                        variables[this.props.lang][
+                                            'all_validators'
+                                        ]
+                                    }
                                 </p>
                             </div>
-                            <Button className="view_all" onClick={() => this.handleRedirect('/stake')}>
+                            <Button
+                                className="view_all"
+                                onClick={() => this.handleRedirect('/stake')}
+                            >
                                 {variables[this.props.lang]['view_all']}
                             </Button>
                         </div>
-                        <Table active={active} home={true}/>
+                        <Table active={active} home={true} />
                     </div>
                 </div>
                 <div className="proposals">
-                    {!this.props.open
-                        ? <div className="proposals_content padding">
+                    {!this.props.open ? (
+                        <div className="proposals_content padding">
                             <div className="heading">
                                 <div className="tabs">
                                     <p className="active">
-                                        {variables[this.props.lang]['top_active_proposals']}
+                                        {
+                                            variables[this.props.lang][
+                                                'top_active_proposals'
+                                            ]
+                                        }
                                     </p>
                                 </div>
-                                <Button className="view_all" onClick={() => this.handleRedirect('/proposals')}>
+                                <Button
+                                    className="view_all"
+                                    onClick={() =>
+                                        this.handleRedirect('/proposals')
+                                    }
+                                >
                                     {variables[this.props.lang]['view_all']}
                                 </Button>
                             </div>
-                            {this.props.proposalsInProgress || this.props.voteDetailsInProgress
-                                ? <div className="cards_content">Loading...</div>
-                                : filteredProposals && filteredProposals.length
-                                    ? <Cards home={true} proposals={filteredProposals}/>
-                                    : <div className="cards_content">{variables[this.props.lang]['no_data_found']}</div>}
+                            {this.props.proposalsInProgress ||
+                            this.props.voteDetailsInProgress ? (
+                                <div className="cards_content">Loading...</div>
+                            ) : filteredProposals &&
+                              filteredProposals.length ? (
+                                <Cards
+                                    home={true}
+                                    proposals={filteredProposals}
+                                />
+                            ) : (
+                                <div className="cards_content">
+                                    {
+                                        variables[this.props.lang][
+                                            'no_data_found'
+                                        ]
+                                    }
+                                </div>
+                            )}
                         </div>
-                        : <ProposalDialog/>}
+                    ) : (
+                        <ProposalDialog />
+                    )}
                 </div>
-                <DelegateDialog/>
-                <SuccessDialog/>
-                <UnSuccessDialog/>
-                <PendingDialog/>
-                <ClaimDialog/>
+                <DelegateDialog />
+                <SuccessDialog />
+                <UnSuccessDialog />
+                <PendingDialog />
+                <ClaimDialog />
             </>
         );
     }

@@ -53,7 +53,7 @@ const variables = {
         vesting_tokens: 'Vesting tokens',
         select_validator: 'Select the validator',
         view_all: 'View All',
-        top_active_proposals: 'Top Active Proposals',
+        top_active_proposals: 'Active Proposals',
         no_data_found: 'No data found',
         success: 'Success',
         transaction_failed: 'Transaction Failed',

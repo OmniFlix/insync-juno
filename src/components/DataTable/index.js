@@ -9,7 +9,8 @@ const DataTable = (props) => {
             columns={props.columns}
             data={props.data}
             options={props.options}
-            title={props.name}/>
+            title={props.name}
+        />
     );
 };
 

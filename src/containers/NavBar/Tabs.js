@@ -8,7 +8,7 @@ import { hideSideBar } from '../../actions/navBar';
 import { hideProposalDialog } from '../../actions/proposals';
 
 class Tabs extends Component {
-    constructor (props) {
+    constructor(props) {
         super(props);
         this.handleChange = this.handleChange.bind(this);
         this.state = {
@@ -16,22 +16,30 @@ class Tabs extends Component {
         };
     }
 
-    componentDidMount () {
-        const route = this.props.location.pathname && this.props.location.pathname.split('/') &&
+    componentDidMount() {
+        const route =
+            this.props.location.pathname &&
+            this.props.location.pathname.split('/') &&
             this.props.location.pathname.split('/')[1];
 
-        if (this.state.value !== route && (route === '' || route === 'stake' || route === 'proposals')) {
+        if (
+            this.state.value !== route &&
+            (route === '' || route === 'stake' || route === 'proposals')
+        ) {
             this.setState({
                 value: route,
             });
         }
     }
 
-    componentDidUpdate (pp, ps, ss) {
+    componentDidUpdate(pp, ps, ss) {
         if (pp.location.pathname !== this.props.location.pathname) {
             const value = this.props.location.pathname.split('/')[1];
 
-            if (value !== this.state.value && (value === '' || value === 'stake' || value === 'proposals')) {
+            if (
+                value !== this.state.value &&
+                (value === '' || value === 'stake' || value === 'proposals')
+            ) {
                 this.setState({
                     value: value,
                 });
@@ -39,7 +47,7 @@ class Tabs extends Component {
         }
     }
 
-    handleChange (newValue) {
+    handleChange(newValue) {
         this.props.handleClose();
         if (this.props.open) {
             this.props.hideProposalDialog();
@@ -54,7 +62,7 @@ class Tabs extends Component {
         });
     }
 
-    render () {
+    render() {
         const a11yProps = (index) => {
             return {
                 id: `simple-tab-${index}`,
@@ -66,23 +74,37 @@ class Tabs extends Component {
             <AppBar className="horizontal_tabs" position="static">
                 <div className="tabs_content">
                     <Tab
-                        className={'tab ' + (this.state.value === '' ? 'active_tab' : '')}
+                        className={
+                            'tab ' +
+                            (this.state.value === '' ? 'active_tab' : '')
+                        }
                         label={variables[this.props.lang].dashboard}
                         value=""
                         onClick={() => this.handleChange('')}
-                        {...a11yProps(0)} />
+                        {...a11yProps(0)}
+                    />
                     <Tab
-                        className={'tab ' + (this.state.value === 'stake' ? 'active_tab' : '')}
+                        className={
+                            'tab ' +
+                            (this.state.value === 'stake' ? 'active_tab' : '')
+                        }
                         label={variables[this.props.lang].stake}
                         value="stake"
                         onClick={() => this.handleChange('stake')}
-                        {...a11yProps(1)} />
+                        {...a11yProps(1)}
+                    />
                     <Tab
-                        className={'tab ' + (this.state.value === 'proposals' ? 'active_tab' : '')}
+                        className={
+                            'tab ' +
+                            (this.state.value === 'proposals'
+                                ? 'active_tab'
+                                : '')
+                        }
                         label={variables[this.props.lang].proposals}
                         value="proposals"
                         onClick={() => this.handleChange('proposals')}
-                        {...a11yProps(1)} />
+                        {...a11yProps(1)}
+                    />
                 </div>
             </AppBar>
         );

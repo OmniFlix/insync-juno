@@ -1,4 +1,4 @@
-import { Button, Tooltip } from '@material-ui/core';
+import { Tooltip } from '@material-ui/core';
 import * as PropTypes from 'prop-types';
 import React from 'react';
 import './index.css';
@@ -11,7 +11,9 @@ const CopyButton = (props) => {
     };
 
     const handleCopy = (e) => {
-        navigator && navigator.clipboard && navigator.clipboard.writeText(props.data);
+        navigator &&
+            navigator.clipboard &&
+            navigator.clipboard.writeText(props.data);
 
         e.stopPropagation();
         setOpen(true);
@@ -19,16 +21,14 @@ const CopyButton = (props) => {
     };
 
     return (
-        <Tooltip
-            arrow
-            open={open}
-            title="Copied!">
-            <Button
-                className="copy_button"
-                variant="outlined"
-                onClick={handleCopy}>
+        <Tooltip arrow open={open} title="Copied!">
+            <button
+                style={{ fontFamily: "'Blinker', sans-serif" }}
+                className="bg-white text-black py-1.5 px-4 rounded-full ml-4 mt-0.5 font-bold text-xs hover:bg-slate-200 transition duration-75"
+                onClick={handleCopy}
+            >
                 {props.children}
-            </Button>
+            </button>
         </Tooltip>
     );
 };

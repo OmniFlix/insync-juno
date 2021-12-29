@@ -26,16 +26,17 @@
 }
 
 .nav_bar .divider {
-    width: 2px;
+    width: 1px;
     height: 20px;
     background: #fff;
+    opacity: 0.5;
     display: inline-block;
-    margin: 0 20px;
+    margin: 0 10px;
 }
 
 .nav_bar .disconnect_button,
 table .disconnect_button {
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.99) 0%, rgba(240, 231, 231, 0.5544) 100%);
+background: white;
     box-shadow: 0 4px 20px rgb(0 0 0 / 25%);
     color: #000000;
     border-radius: 50px;
@@ -44,15 +45,11 @@ table .disconnect_button {
     font-size: 14px;
     line-height: 130%;
     padding: 10px 20px;
-    text-transform: unset;
-}
-
-.nav_bar .disconnect_button:hover {
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.99) 0%, rgba(240, 231, 231, 0.5544) 100%);
+    text-transform: unset;  
 }
 
 .nav_bar .disconnect_button .circular_progress {
-    color: #FFFFFF;
+    color: black;
     margin-left: 20px;
 }
 
@@ -106,10 +103,18 @@ table .disconnect_button {
     margin-left: 0;
 }
 
-.nav_bar .horizontal_tabs .tab:hover,
 .nav_bar .horizontal_tabs .tab.active_tab {
     background: #FFFFFF;
-    color: #000000;
+    background-image: linear-gradient(to right, rgb(192, 132, 252), rgb(236, 72, 153), rgb(239, 68, 68));
+    color: white;
+}
+
+.nav_bar .horizontal_tabs .tab:hover:not(.tab.active_tab) {
+    background: #FFFFFF;
+    color: black;
+    transition-property: all;
+    transition-timing-function: ease-in-out;
+    transition-duration: 250ms;
 }
 
 .nav_bar .toggle_button,
@@ -119,7 +124,7 @@ table .disconnect_button {
 
 .nav_bar .token_name {
     font-family: 'Blinker', sans-serif;
-    font-size: 20px;
+    font-size: 14px;
     font-weight: 600;
     line-height: 130%;
     color: #FFFFFF;

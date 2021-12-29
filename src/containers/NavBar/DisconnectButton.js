@@ -1,5 +1,4 @@
 import React from 'react';
-import { Button } from '@material-ui/core';
 import * as PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import variables from '../../utils/variables';
@@ -13,12 +12,13 @@ const DisconnectButton = (props) => {
     };
 
     return (
-        <Button
+        <button
             className="disconnect_button"
             variant="contained"
-            onClick={handleClick}>
+            onClick={handleClick}
+        >
             {variables[props.lang].disconnect}
-        </Button>
+        </button>
     );
 };
 
@@ -40,4 +40,6 @@ const actionsToProps = {
     disconnectSet,
 };
 
-export default withRouter(connect(stateToProps, actionsToProps)(DisconnectButton));
+export default withRouter(
+    connect(stateToProps, actionsToProps)(DisconnectButton)
+);
