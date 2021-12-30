@@ -6,7 +6,8 @@
   "extends": [
     "standard",
     "eslint:recommended",
-    "plugin:react/recommended"
+    "plugin:react/recommended",
+    "prettier"
   ],
   "globals": {
     "Atomics": "readonly",
@@ -28,10 +29,10 @@
     }
   },
   "rules": {
-    "indent": [
-      2,
-      4
-    ],
+    // "indent": [
+    //   2,
+    //   4
+    // ],
     "arrow-parens": [
       2,
       "always"

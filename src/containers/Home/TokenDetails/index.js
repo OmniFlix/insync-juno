@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './index.css';
 import * as PropTypes from 'prop-types';
 import variables from '../../../utils/variables';
@@ -34,8 +34,47 @@ const TokenDetails = (props) => {
     props.rewards.total[0] && props.rewards.total[0].amount
         ? props.rewards.total[0].amount / 10 ** config.COIN_DECIMALS : 0;
 
+    const [apr, setApr] = useState(0);
+    const [price, setPrice] = useState(0);
+    useEffect(() => {
+        (async () => {
+            const supply = await fetch(`${config.REST_URL}/cosmos/bank/v1beta1/supply/${config.COIN_MINIMAL_DENOM}`).then((r) => r.json()).then(({ amount }) => amount.amount).catch((e) => 0);
+            const { inflation } = await fetch(`${config.REST_URL}/cosmos/mint/v1beta1/inflation`).then((r) => r.json()).catch((e) => ({ inflation: 0 }));
+            const { pool: { bonded_tokens: bonded } } = await fetch(`${config.REST_URL}/cosmos/staking/v1beta1/pool`).then((r) => r.json()).catch((e) => ({ pool: { bonded_tokens: 0 } }));
+            setApr(+supply * +inflation / +bonded * 100);
+            const price = await fetch(`https://api-osmosis.imperator.co/tokens/v1/${config.COIN_DENOM.toUpperCase()}`).then((r) => r.json()).then(([{ price }]) => price).catch((e) => 0);
+            setPrice(price);
+        })();
+    }, []);
+
+    function aprToApy(apr, numPeriods) {
+        return (1 + (apr / numPeriods))**(numPeriods) - 1;
+    }
+    const blocksInAYear = (365 * 24 * 60 * 60) / 7.5;
     return (
         <div className="token_details">
+            <div className="chip_info">
+                <p>Price</p>
+                <div className="chip">
+                    <img alt="available tokens" src={rewardsIcon}/>
+                    <p>${price.toFixed(4)}</p>
+                </div>
+            </div>
+            <div className="chip_info">
+                <p>APR</p>
+                <div className="chip">
+                    <img alt="available tokens" src={rewardsIcon}/>
+                    <p>{apr.toFixed(2)}%</p>
+                </div>
+            </div>
+            <div className="chip_info">
+                <p>APY</p>
+                <div className="chip">
+                    <img alt="available tokens" src={rewardsIcon}/>
+                    <p>{new Intl.NumberFormat().format(+(aprToApy(apr / 100, blocksInAYear) * 100).toFixed(2)) }%</p>
+                </div>
+            </div>
+            <div style={{width: '100%'}}></div>
             <div className="chip_info">
                 <p>{variables[props.lang]['available_tokens']}</p>
                 <div className="chip">
