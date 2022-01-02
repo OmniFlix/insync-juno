@@ -67,7 +67,6 @@ class Home extends Component {
     render () {
         const { active } = this.state;
         const filteredProposals = this.props.proposals && this.props.proposals.filter((item) => item.status === 2);
-
         return (
             <>
                 <NavBar/>
