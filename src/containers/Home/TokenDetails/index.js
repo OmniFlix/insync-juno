@@ -49,6 +49,7 @@ const TokenDetails = (props) => {
     const [comparativeMarketCap, setComparativeMarketCap] = useState(0);
     useEffect(() => {
         (async () => {
+            // bump version
             const supply = await fetch(
                 `${config.REST_URL}/cosmos/bank/v1beta1/supply/${config.COIN_MINIMAL_DENOM}`,
             )
