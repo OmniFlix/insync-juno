@@ -59,7 +59,9 @@ const TokenDetails = (props) => {
                 `${config.REST_URL}/cosmos/mint/v1beta1/inflation`,
             )
                 .then((r) => r.json())
-                .catch((e) => ({ inflation: config.CHAIN_NAME == 'stargaze' ? 0.35 : 0 }));
+                .catch((e) => ({
+                    inflation: config.CHAIN_NAME === 'stargaze' ? 0.35 : 0,
+                }));
             const {
                 pool: { bonded_tokens: bonded },
             } = await fetch(`${config.REST_URL}/cosmos/staking/v1beta1/pool`)
@@ -126,13 +128,19 @@ const TokenDetails = (props) => {
             </div>
             <div className="chip_info">
                 <p>Comparative Market Cap</p>
-                <input type="number" onChange={(e) => setComparativeMarketCap(+e.currentTarget.value)}/>
+                <input
+                    type="number"
+                    onChange={(e) =>
+                        setComparativeMarketCap(+e.currentTarget.value)
+                    }
+                />
                 <div className="chip">
                     <img alt="available tokens" src={rewardsIcon} />
                     <p>
                         $
                         {new Intl.NumberFormat().format(
-                            comparativeMarketCap / +(supply / 10 ** config.COIN_DECIMALS),
+                            comparativeMarketCap /
+                                +(supply / 10 ** config.COIN_DECIMALS),
                         )}
                     </p>
                 </div>
