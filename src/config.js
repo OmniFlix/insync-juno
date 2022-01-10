@@ -2,6 +2,7 @@ export const config = {
     RPC_URL: 'https://rpc.juno.omniflix.co',
     REST_URL: 'https://api.juno.omniflix.co',
     EXPLORER_URL: 'https://www.mintscan.io/juno',
+    STAKING_URL: 'https://juno.omniflix.co/stake',
     NETWORK_NAME: 'Juno',
     NETWORK_TYPE: 'mainnet',
     CHAIN_ID: 'juno-1',
