@@ -44,7 +44,7 @@ const Voting = (props) => {
 
         const tx = {
             msgs: [{
-                type: 'cosmos-sdk/MsgVote',
+                typeUrl: '/cosmos.gov.v1beta1.MsgVote',
                 value: {
                     option: option,
                     proposalId: props.proposalId,
