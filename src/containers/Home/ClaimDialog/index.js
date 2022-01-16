@@ -15,6 +15,7 @@ import { signTxAndBroadcast } from '../../../helper';
 import { showMessage } from '../../../actions/snackbar';
 import { fetchRewards, fetchVestingBalance, getBalance } from '../../../actions/accounts';
 import { config } from '../../../config';
+import { gas } from '../../../defaultGasValues';
 import variables from '../../../utils/variables';
 import CircularProgress from '../../../components/CircularProgress';
 
@@ -23,14 +24,16 @@ const ClaimDialog = (props) => {
 
     const handleClaimAll = () => {
         setInProgress(true);
-        const gasValue = props.rewards && props.rewards.rewards &&
-            (props.rewards.rewards.length - 1) * 80000 + config.DEFAULT_GAS;
+        var gasValue = gas.claim_reward;
+        if (props.rewards && props.rewards.rewards && props.rewards.rewards.length > 1) {
+            gasValue = (props.rewards.rewards.length - 1) / 2 * gas.claim_reward + gas.claim_reward;
+        }
 
         const updatedTx = {
             msgs: [],
             fee: {
                 amount: [{
-                    amount: String(config.DEFAULT_GAS * config.GAS_PRICE_STEP_AVERAGE),
+                    amount: String(gasValue * config.GAS_PRICE_STEP_AVERAGE),
                     denom: config.COIN_MINIMAL_DENOM,
                 }],
                 gas: String(gasValue),
@@ -89,10 +92,10 @@ const ClaimDialog = (props) => {
             },
             fee: {
                 amount: [{
-                    amount: String(config.DEFAULT_GAS * config.GAS_PRICE_STEP_AVERAGE),
+                    amount: String(gas.claim_reward * config.GAS_PRICE_STEP_AVERAGE),
                     denom: config.COIN_MINIMAL_DENOM,
                 }],
-                gas: String(config.DEFAULT_GAS),
+                gas: String(gas.claim_reward),
             },
             memo: '',
         };
