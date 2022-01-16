@@ -18,6 +18,7 @@ import { signTxAndBroadcast } from '../../../helper';
 import { fetchRewards, fetchVestingBalance, getBalance, getDelegations, getUnBondingDelegations } from '../../../actions/accounts';
 import { showMessage } from '../../../actions/snackbar';
 import { config } from '../../../config';
+import { gas } from '../../../defaultGasValues';
 import CircularProgress from '../../../components/CircularProgress';
 
 const COIN_DECI_VALUE = 1000000;
@@ -25,9 +26,11 @@ const DelegateDialog = (props) => {
     const [inProgress, setInProgress] = useState(false);
     const handleDelegateType = () => {
         setInProgress(true);
-        let gasValue = config.DEFAULT_GAS;
+        let gasValue = gas.delegate;
         if (props.name === 'Redelegate') {
-            gasValue = config.DEFAULT_GAS + 100000;
+            gasValue = gas.re_delegate;
+        } else if (props.name === 'Undelegate') {
+            gasValue = gas.un_delegate;
         }
         const updatedTx = {
             msg: {

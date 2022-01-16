@@ -6,6 +6,7 @@ import { Button, FormControlLabel, Radio, RadioGroup } from '@material-ui/core';
 import CircularProgress from '../../../components/CircularProgress';
 import { signTxAndBroadcast } from '../../../helper';
 import { config } from '../../../config';
+import { gas } from '../../../defaultGasValues';
 import variables from '../../../utils/variables';
 import { showMessage } from '../../../actions/snackbar';
 import {
@@ -53,10 +54,10 @@ const Voting = (props) => {
             }],
             fee: {
                 amount: [{
-                    amount: String(config.DEFAULT_GAS * config.GAS_PRICE_STEP_AVERAGE),
+                    amount: String(gas.vote * config.GAS_PRICE_STEP_AVERAGE),
                     denom: config.COIN_MINIMAL_DENOM,
                 }],
-                gas: String(config.DEFAULT_GAS),
+                gas: String(gas.vote),
             },
             memo: '',
         };
