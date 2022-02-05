@@ -79,6 +79,14 @@ export const initializeChain = (cb) => {
         }
 
         if (window.keplr) {
+            window.keplr.defaultOptions = {
+                sign: {
+                    preferNoSetFee: true,
+                    preferNoSetMemo: true,
+                },
+            };
+        }
+        if (window.keplr) {
             await window.keplr.enable(chainId);
 
             const offlineSigner = window.getOfflineSignerOnlyAmino(chainId);

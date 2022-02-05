@@ -56,20 +56,8 @@ const ClaimDialog = (props) => {
             });
         }
 
-        if (window.keplr) {
-            window.keplr.defaultOptions = {
-                sign: {
-                    preferNoSetFee: true,
-                    preferNoSetMemo: true,
-                },
-            };
-        }
-
         signTxAndBroadcast(updatedTx, props.address, (error, result) => {
             setInProgress(false);
-            if (window.keplr) {
-                window.keplr.defaultOptions = {};
-            }
             if (error) {
                 if (error.indexOf('not yet found on the chain') > -1) {
                     props.pendingDialog();
@@ -111,20 +99,9 @@ const ClaimDialog = (props) => {
             },
             memo: '',
         };
-        if (window.keplr) {
-            window.keplr.defaultOptions = {
-                sign: {
-                    preferNoSetFee: true,
-                    preferNoSetMemo: true,
-                },
-            };
-        }
 
         signTxAndBroadcast(updatedTx, props.address, (error, result) => {
             setInProgress(false);
-            if (window.keplr) {
-                window.keplr.defaultOptions = {};
-            }
             if (error) {
                 if (error.indexOf('not yet found on the chain') > -1) {
                     props.pendingDialog();
