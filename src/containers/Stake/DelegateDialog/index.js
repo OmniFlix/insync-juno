@@ -131,7 +131,10 @@ const DelegateDialog = (props) => {
         }
     }
 
-    const disable = !props.validator || !props.amount || inProgress ||
+    // ensures that overprecise zero values (e.g. `0.0000001` juno) are not submitted as decimals
+    const precisionAppliedValueIsZero = +(+props.amount).toFixed(config.COIN_DECIMALS) === 0;
+
+    const disable = !props.validator || !props.amount || precisionAppliedValueIsZero || inProgress ||
         ((props.name === 'Delegate' || props.name === 'Stake') && vestingTokens
             ? props.amount > parseFloat((available + vestingTokens) / (10 ** config.COIN_DECIMALS))
             : props.name === 'Delegate' || props.name === 'Stake'

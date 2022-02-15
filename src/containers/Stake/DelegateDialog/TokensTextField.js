@@ -39,16 +39,19 @@ const TokensTextField = (props) => {
 
     const vestingTokens = (vesting - delegatedVesting) / (10 ** config.COIN_DECIMALS);
 
+    // ensures that decimals used are not overprecise. (e.g. `1.0000000000000001` juno)
+    const currentPrecision = props.value?.includes?.('.') ? props.value.split('.')[1].length : 0;
+    const isCorrectPrecision = currentPrecision <= config.COIN_DECIMALS;
     return (
         <>
             <TextField
-                error={(props.name === 'Delegate' || props.name === 'Stake') && vestingTokens
+                error={!isCorrectPrecision || ((props.name === 'Delegate' || props.name === 'Stake') && vestingTokens
                     ? props.value > parseFloat(availableTokens + vestingTokens)
                     : props.name === 'Delegate' || props.name === 'Stake'
                         ? props.value > parseFloat(availableTokens)
                         : props.name === 'Undelegate' || props.name === 'Redelegate'
-                            ? props.value > parseFloat(stakedTokens) : false}
-                errorText="Invalid Amount"
+                            ? props.value > parseFloat(stakedTokens) : false) }
+                errorText={isCorrectPrecision ? "Invalid Amount" : `Overprecise. Remove ${currentPrecision - config.COIN_DECIMALS} decimal places.`}
                 id="tokens-text-field"
                 name="tokens"
                 type="number"

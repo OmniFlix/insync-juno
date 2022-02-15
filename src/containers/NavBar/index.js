@@ -243,7 +243,10 @@ class NavBar extends Component {
         });
     }
 
-    render () {
+    render() {
+        const configs =
+            JSON.parse(localStorage.getItem('chain-registry') || 'null') ||
+            [config];
         return (
             <div className={ClassNames('nav_bar padding', localStorage.getItem('of_co_address') || this.props.address
                 ? '' : 'disconnected_nav')}>
@@ -256,7 +259,18 @@ class NavBar extends Component {
                     <Tabs/>
                     {(localStorage.getItem('of_co_address') || this.props.address) &&
                     <div className="select_fields">
-                        <p className="token_name">{config.NETWORK_NAME}</p>
+                        <p className="token_name" style={{ position: 'relative' }}>
+                            <select 
+                                className='token_name' 
+                                style={{ background: 'transparent', border: 'none', outline: 'none', cursor: 'pointer' }} 
+                                value={config.NETWORK_NAME} 
+                                onChange={(e) => { localStorage.setItem('chain', e.currentTarget.value); window.location.reload(); }}
+                            >
+                                {configs.map((chainConfig) => (
+                                    <option key={chainConfig.NETWORK_NAME} value={chainConfig.NETWORK_NAME}>{chainConfig.NETWORK_NAME.replace('Network', '').trim()}</option>
+                                ))}
+                            </select>
+                        </p>
                         <span className="divider"/>
                         <div className="hash_text" title={this.props.address}>
                             <p className="name">{this.props.address}</p>
