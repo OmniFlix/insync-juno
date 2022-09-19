@@ -1,6 +1,6 @@
 export const config = {
     RPC_URL: 'https://rpc.juno.omniflix.co',
-    REST_URL: 'https://api-juno-ia.notional.ventures',
+    REST_URL: 'https://api-juno-ia.cosmosia.notional.ventures',
     EXPLORER_URL: 'https://www.mintscan.io/juno',
     STAKING_URL: 'https://juno.omniflix.co/stake',
     NETWORK_NAME: 'Juno',
