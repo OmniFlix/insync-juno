@@ -1,6 +1,6 @@
 export const config = {
-    RPC_URL: 'https://rpc-juno-ia.cosmosia.notional.ventures',
-    REST_URL: 'https://api-juno-ia.cosmosia.notional.ventures',
+    RPC_URL: 'https://juno.rpc.silknodes.io',
+    REST_URL: 'https://juno.api.silknodes.io',
     EXPLORER_URL: 'https://www.mintscan.io/juno',
     STAKING_URL: 'https://juno.omniflix.co/stake',
     NETWORK_NAME: 'Juno',
