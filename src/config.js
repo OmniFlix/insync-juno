@@ -1,6 +1,6 @@
 export const config = {
-    RPC_URL: 'https://juno.rpc.silknodes.io',
-    REST_URL: 'https://juno.api.silknodes.io',
+    RPC_URL: 'https://rpc-juno.itastakers.com',
+    REST_URL: 'https://lcd-juno.itastakers.com',
     EXPLORER_URL: 'https://www.mintscan.io/juno',
     STAKING_URL: 'https://juno.omniflix.co/stake',
     NETWORK_NAME: 'Juno',
